@@ -43,14 +43,7 @@ public class JavaTasks {
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
     static public void sortTimes(String inputName, String outputName) throws IOException {
-        FileReader input = new FileReader(inputName);
-        Scanner scan = new Scanner(input);
-        List<String> list = new ArrayList<>();
-
-        while (scan.hasNextLine()) {
-            list.add(scan.nextLine());
-        }
-        input.close();
+        List<String> list = readInputFile(inputName);
         int[] intList = new int[list.size()];
         for (int i = 0; i < intList.length; i++) {
             intList[i] = Integer.parseInt(list.get(i).replace(":", ""));
@@ -62,7 +55,7 @@ public class JavaTasks {
             String temp = String.format("%02d:%02d:%02d",
                     elem / 10000,
                     elem / 100 % 100,
-                    elem % 100)+"\n";
+                    elem % 100) + "\n";
             fw.write(temp);
 
         }
@@ -129,9 +122,34 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    public static List<String> readInputFile(String inputName) throws IOException {
+        FileReader fr = new FileReader(inputName);
+        Scanner sc = new Scanner(fr);
+        List<String> tempList = new ArrayList<>();
+        while (sc.hasNextLine()) {
+            tempList.add(sc.nextLine());
+        }
+        fr.close();
+        return tempList;
     }
+
+    static public void sortTemperatures(String inputName, String outputName) throws IOException {
+        String temp = "";
+        List<String> list = readInputFile(inputName);
+        int[] arrTemp = new int[list.size()];
+        for (int i = 0; i < arrTemp.length; i++) {
+            arrTemp[i] = Integer.parseInt(list.get(i).replace(".", ""));
+        }
+
+        Sorts.mergeSort(arrTemp);
+        FileWriter fw = new FileWriter(outputName);
+        for (int elem : arrTemp) {
+            String tempS= (double)elem/10+"\n";
+            fw.write(tempS);
+        }
+        fw.close();
+    }
+
 
     /**
      * Сортировка последовательности
