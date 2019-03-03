@@ -38,7 +38,6 @@ public class JavaAlgorithms {
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
     static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws IOException {
-        long begin=System.currentTimeMillis();
         List<String> list = JavaTasks.readInputFile(inputName);
         int maxSell = -1;
         int minBuy = -1;
@@ -59,7 +58,6 @@ public class JavaAlgorithms {
             }
         }
         long end=System.currentTimeMillis();
-        System.out.println(end-begin);
         return new Pair<>(minBuy + 1, maxSell + 1);
     }
 
