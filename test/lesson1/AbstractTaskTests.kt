@@ -2,6 +2,7 @@ package lesson1
 
 import java.io.BufferedWriter
 import java.io.File
+import java.io.File.separator
 import java.util.*
 import kotlin.math.abs
 
@@ -36,6 +37,22 @@ abstract class AbstractTaskTests : AbstractFileTests() {
         try {
             sortTimes("input/time_in3.txt", "temp.txt")
             assertFileContent("temp.txt", File("input/time_out3.txt").readLines().joinToString(separator = "\n"))
+        } finally {
+            File("temp.txt").delete()
+        }
+        try {
+            sortTimes("input/time_in4.txt", "temp.txt")
+            assertFileContent("temp.txt",
+                    File("input/time_out4.txt").readLines().joinToString(separator = "\n"))
+
+        } finally {
+            File("temp.txt").delete()
+        }
+        try {
+            sortTimes("input/time_in5.txt", "temp.txt")
+            assertFileContent("temp.txt",
+                    File("input/time_out5.txt").readLines().joinToString(separator = "\n"))
+
         } finally {
             File("temp.txt").delete()
         }
@@ -114,6 +131,23 @@ abstract class AbstractTaskTests : AbstractFileTests() {
         }
         testGeneratedTemperatures(10)
         testGeneratedTemperatures(100)
+
+        try {
+            sortTemperatures("input/temperature_in1.txt", "temp.txt")
+            assertFileContent("temp.txt",
+                    File("input/temperature_out1.txt").readLines().joinToString(separator = "\n"))
+
+        } finally {
+            File("temp.txt").delete()
+        }
+        try {
+            sortTemperatures("input/temperature_in2.txt", "temp.txt")
+            assertFileContent("temp.txt",
+                    File("input/temperature_out2.txt").readLines().joinToString(separator = "\n"))
+
+        } finally {
+            File("temp.txt").delete()
+        }
     }
 
     protected fun sortSequence(sortSequence: (String, String) -> Unit) {
