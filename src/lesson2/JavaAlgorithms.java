@@ -57,7 +57,7 @@ public class JavaAlgorithms {
                 }
             }
         }
-        long end=System.currentTimeMillis();
+        long end = System.currentTimeMillis();
         return new Pair<>(minBuy + 1, maxSell + 1);
     }
 
@@ -122,8 +122,42 @@ public class JavaAlgorithms {
      * Если имеется несколько самых длинных общих подстрок одной длины,
      * вернуть ту из них, которая встречается раньше в строке first.
      */
-    static public String longestCommonSubstring(String firs, String second) {
-        throw new NotImplementedError();
+    static public String longestCommonSubstring(String first, String second) {
+        boolean sub = false;
+        int commonLength = 0;
+        int indexMax = 0;
+        int f_length = first.length();
+        int s_length = second.length();
+        if (f_length == 0 || s_length == 0) {
+            return "";
+        }
+        if (first.equals(second)) {
+            return second;
+        }
+        int[][] commonTable = new int[f_length][s_length];
+        for (int i = 0; i < f_length; i++) {
+            for (int j = 0; j < s_length; j++) {
+                if (first.charAt(i) == second.charAt(j)) {
+                    if (i != 0 && j != 0) {
+                        sub = true;
+                        commonTable[i][j] = commonTable[i - 1][j - 1] + 1;
+                    } else {
+                        commonTable[i][j] = 1;
+                    }
+                    if (commonTable[i][j] > commonLength) {
+                        commonLength = commonTable[i][j];
+                        indexMax = i;
+                    }
+                } else {
+                    commonTable[i][j] = 0;
+                }
+            }
+        }
+               if (!sub) {
+            return "";
+        }
+        //System.out.println("------------------" + indexMax + " " + commonLength + "------------------");
+        return first.substring(indexMax - commonLength + 1, indexMax + 1);
     }
 
     /**

@@ -646,6 +646,9 @@ abstract class AbstractAlgorithmsTests {
 Еще старушка не забыла
                 """.trimIndent()
                 ))
+        assertEquals(")*", longestCommonSubstring("^&&**(()*%#@", "*^$))*^%%%##@#^^"))
+        assertEquals("7504850846=", longestCommonSubstring("!!!!!--------22e997504850846=_", "7504850846=-=-"))
+        assertEquals("", longestCommonSubstring("", ""))
     }
 
     fun calcPrimesNumber(calcPrimesNumber: (Int) -> Int) {
