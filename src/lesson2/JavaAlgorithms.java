@@ -153,10 +153,10 @@ public class JavaAlgorithms {
                 }
             }
         }
-               if (!sub) {
+        if (!sub) {
             return "";
         }
-        //System.out.println("------------------" + indexMax + " " + commonLength + "------------------");
+
         return first.substring(indexMax - commonLength + 1, indexMax + 1);
     }
 
@@ -171,7 +171,26 @@ public class JavaAlgorithms {
      * Единица простым числом не считается.
      */
     static public int calcPrimesNumber(int limit) {
-        throw new NotImplementedError();
+        if (limit <= 1) {
+            return 0;
+        }
+        //List<Integer> list = new ArrayList<>();
+        int[] temp = new int[limit + 1];
+        int count = 0;
+        for (int i = 0; i < limit + 1; i++) {
+            temp[i] = i;
+        }
+        for (int i = 2; i < limit + 1; i++) {
+            if (temp[i] != 0) {
+                count++;
+            }
+            int j = i;
+            while (j < limit + 1) {
+                temp[j] = 0;
+                j = j + i;
+            }
+        }
+        return count;
     }
 
     /**
