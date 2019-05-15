@@ -36,7 +36,8 @@ abstract class AbstractTaskTests : AbstractFileTests() {
         }
         try {
             sortTimes("input/time_in3.txt", "temp.txt")
-            assertFileContent("temp.txt", File("input/time_out3.txt").readLines().joinToString(separator = "\n"))
+            assertFileContent("temp.txt",
+                    File("input/time_out3.txt").readLines().joinToString(separator = "\n"))
         } finally {
             File("temp.txt").delete()
         }

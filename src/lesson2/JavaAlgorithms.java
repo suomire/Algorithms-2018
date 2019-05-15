@@ -4,11 +4,9 @@ import kotlin.NotImplementedError;
 import kotlin.Pair;
 import lesson1.JavaTasks;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 @SuppressWarnings("unused")
@@ -36,26 +34,35 @@ public class JavaAlgorithms {
      * Например, для приведённого выше файла результат должен быть Pair(3, 4)
      * <p>
      * В случае обнаружения неверного формата файла бросить любое исключение.
+     *
+     * @return
      */
-    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) throws IOException {
-        List<String> list = JavaTasks.readInputFile(inputName);
+    static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) {
+        // O(N^2)
+        // ?
         int maxSell = -1;
         int minBuy = -1;
         int maxDiff = -1;
         int curDiff;
-        List<Integer> intList = new ArrayList<>();
-        for (String elem : list) {
-            intList.add(Integer.parseInt(elem));
-        }
-        for (int i = 0; i < intList.size(); i++) {
-            for (int j = i; j < intList.size(); j++) {
-                curDiff = intList.get(j) - intList.get(i);
-                if (curDiff > maxDiff) {
-                    maxDiff = curDiff;
-                    maxSell = j;
-                    minBuy = i;
+        try {
+            List<String> list = JavaTasks.readInputFile(inputName);
+
+            List<Integer> intList = new ArrayList<>();
+            for (String elem : list) {
+                intList.add(Integer.parseInt(elem));
+            }
+            for (int i = 0; i < intList.size(); i++) {
+                for (int j = i; j < intList.size(); j++) {
+                    curDiff = intList.get(j) - intList.get(i);
+                    if (curDiff > maxDiff) {
+                        maxDiff = curDiff;
+                        maxSell = j;
+                        minBuy = i;
+                    }
                 }
             }
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Wrong data format");
         }
         long end = System.currentTimeMillis();
         return new Pair<>(minBuy + 1, maxSell + 1);
