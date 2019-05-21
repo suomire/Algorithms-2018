@@ -8,7 +8,7 @@ class ChromosomeTest {
     private val random = Random()
 
     private val defaultSize = 1000
-/*
+
     @Test
     @Tag("Example")
     fun mutate() {
@@ -37,6 +37,4 @@ class ChromosomeTest {
             }
         }
     }
-
- */
 }

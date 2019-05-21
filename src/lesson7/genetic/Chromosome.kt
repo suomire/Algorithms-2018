@@ -2,7 +2,7 @@ package lesson7.genetic
 
 import java.util.*
 
-internal class Chromosome(val visitingOrder: List<Int>) {
+class Chromosome(val visitingOrder: List<Int>) {
     constructor(size: Int, random: Random) :
             this((0 until size).toMutableList().apply { shuffle(random) })
 
