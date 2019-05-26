@@ -66,8 +66,8 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
     public boolean remove(Object o) {
         // TODO
         @SuppressWarnings("unchecked")
-        Node<T> deletedNode = find((T) o);
         T t = (T) o;
+        Node<T> deletedNode = find(t);
         if (find(t) == null || root == null || o == null) return false;
         else {
             Node<T> parent = root;
