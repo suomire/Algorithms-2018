@@ -64,19 +64,17 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
      */
     @Override
     public boolean remove(Object o) {
-        // TODO
         @SuppressWarnings("unchecked")
-        T t = (T) o;
-        Node<T> deletedNode = find(t);
-        if (find(t) == null || root == null || o == null) return false;
+        T element = (T) o;
+        if (find(element) == null || root == null || o == null) return false;
         else {
-            Node<T> parent = root;
+            Node<T> parent = null;
             Node<T> current = root;
             boolean isLeft = true;
             //находим родителя
-            while (current.value != t) {
+            while (current.value != element) {
                 parent = current;
-                if (t.compareTo(parent.value) < 0) {
+                if (element.compareTo(parent.value) < 0) {
                     isLeft = true;
                     current = current.left;
                 } else {
@@ -84,7 +82,7 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                     current = current.right;
                 }
             }
-            //current - deleted element
+            //current = deleted element, parent - parent deleted element
             //проверяем наличие потомков
             if (current.left == null && current.right == null) {
                 if (isLeft) {
@@ -98,22 +96,43 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                 } else {
                     parent.right = current.right;
                 }
-            } else {
-                Node<T> current_child = current.left;
-                while (current_child.right != null) {
-                    current_child = current_child.right;
+            } else if (current.right == null) {
+                if (isLeft) {
+                    parent.left = current.left;
+                } else {
+                    parent.right = current.left;
                 }
-                parent = current_child;
-                if (current == current_child) {
-                    current_child = current.right;
-                    while (current_child.left != null) {
-                        current_child = current_child.left;
-                    }
-                    parent = current_child;
+            } else {
+                Node<T> current_node = current.left; //ищу макс элемент в левом поддереве!!!!!
+                Node<T> current_parent = current;
+                while (current_node.right != null) {
+                    current_parent = current_node;
+                    current_node = current_node.right;
+                }
+                //current_node - максимальный элемент меньшего дерева, current_parent - его родитель
+                if (current_node.left != null) {
+                    current_parent.right = current_node.left;
+                }
+                current_node.right = current.right;
+                current_node.left = current.right;
+                if (isLeft) {
+                    parent.left = current_node;
+                } else {
+                    parent.right = current_node;
                 }
             }
-            return true;
         }
+        size--;
+        return true;
+    }
+
+    public Node<T> lastNode(Node<T> node) {
+        if (root == null) throw new NoSuchElementException();
+        Node<T> cur = node;
+        while (cur.left != null) {
+            cur = cur.left;
+        }
+        return cur;
     }
 
     @Override
@@ -155,7 +174,6 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Средняя
          */
         private Node<T> findNext() {
-            // TODO
             current = next;
             if (next == null) {
                 next = firstNode();
