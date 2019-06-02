@@ -114,8 +114,10 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                     current_parent.right = current_node.left;
                 }
                 current_node.right = current.right;
-                current_node.left = current.right;
+                current_node.left = current.left;
                 if (isLeft) {
+                    //загадка
+                    //assert parent != null;
                     parent.left = current_node;
                 } else {
                     parent.right = current_node;
@@ -173,28 +175,34 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
          * Поиск следующего элемента
          * Средняя
          */
+        //Ресурсоемкость:O(h), h - высота дерева
+        //Трудоемкость: O(h) - худший случай, O(logN) - в остальных случаях
         private Node<T> findNext() {
-            current = next;
-            if (next == null) {
-                next = firstNode();
-                return next;
+            Node<T> point;
+            if (root == null) {
+                return null;
             }
-
-            if (next.right != null) {
-                next = next.right;
-                while (next.left != null) next = next.left;
-                return next;
+            if (current == null) {
+                return minimum(root);
+            } else {
+                point = current;
             }
-
-            while (findParent(next) != null) {
-                if (findParent(next).left == next) {
-                    next = findParent(next);
-                    return next;
+            if (point.right != null) {
+                return minimum(point.right);
+            } else {
+                Node<T> searchPoint = null;
+                Node<T> ancestor = root;
+                while (ancestor != point && ancestor != null) {
+                    int comparison = point.value.compareTo(ancestor.value);
+                    if (comparison > 0) {
+                        ancestor = ancestor.right;
+                    } else {
+                        searchPoint = ancestor;
+                        ancestor = ancestor.left;
+                    }
                 }
-                next = findParent(next);
+                return searchPoint;
             }
-
-            return null;
 
         }
 
