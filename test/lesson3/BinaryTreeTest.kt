@@ -64,8 +64,10 @@ class BinaryTreeTest {
             }
             val toRemove = list[random.nextInt(list.size)]
             println("Removing $toRemove from $list")
+            println("Before removal $toRemove from $binarySet and $treeSet")
             treeSet.remove(toRemove)
             binarySet.remove(toRemove)
+            println("After removal $toRemove from $binarySet and $treeSet")
             assertEquals<SortedSet<*>>(treeSet, binarySet, "After removal of $toRemove from $list")
             assertEquals(treeSet.size, binarySet.size)
             for (element in list) {
