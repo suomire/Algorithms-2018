@@ -38,7 +38,7 @@ public class JavaAlgorithms {
      * @return
      */
     static public Pair<Integer, Integer> optimizeBuyAndSell(String inputName) {
-        // O(N^2)
+        // Трудоемкость: O(n^2)
         // ?
         int maxSell = -1;
         int minBuy = -1;
@@ -129,6 +129,8 @@ public class JavaAlgorithms {
      * Если имеется несколько самых длинных общих подстрок одной длины,
      * вернуть ту из них, которая встречается раньше в строке first.
      */
+    // Трудоемкость: О(nm)
+    // Ресурсоемкость: O(nm)
     static public String longestCommonSubstring(String first, String second) {
         boolean sub = false;
         int commonLength = 0;
@@ -177,6 +179,8 @@ public class JavaAlgorithms {
      * Справка: простым считается число, которое делится нацело только на 1 и на себя.
      * Единица простым числом не считается.
      */
+    //Трудоемкость: O(n log(log(n)))
+    //Ресурсоемкоть: O(n)
     static public int calcPrimesNumber(int limit) {
         if (limit <= 1) {
             return 0;

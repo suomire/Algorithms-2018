@@ -42,6 +42,9 @@ public class JavaTasks {
      * <p>
      * В случае обнаружения неверного формата файла бросить любое исключение.
      */
+
+    // Трудоемкость: O(n*log(n))
+    // Ресурсоемкость: O(n)
     static public void sortTimes(String inputName, String outputName) throws IOException {
         List<String> list = readInputFile(inputName);
         int[] intList = new int[list.size()];
@@ -133,6 +136,8 @@ public class JavaTasks {
         return tempList;
     }
 
+    //Сортировка слиянием: Худшее время	O(n log n), Лучшее время O(n log n), Среднее время	O(n log n)
+    //Ресурсоемкость: О(n)
     static public void sortTemperatures(String inputName, String outputName) throws IOException {
         String temp = "";
         List<String> list = readInputFile(inputName);
@@ -144,7 +149,7 @@ public class JavaTasks {
         Sorts.mergeSort(arrTemp);
         FileWriter fw = new FileWriter(outputName);
         for (int elem : arrTemp) {
-            String tempS= (double)elem/10+"\n";
+            String tempS = (double) elem / 10 + "\n";
             fw.write(tempS);
         }
         fw.close();

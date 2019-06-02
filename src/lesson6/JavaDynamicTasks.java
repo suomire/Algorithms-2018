@@ -54,8 +54,7 @@ public class JavaDynamicTasks {
             }
         }
 
-        String result = new StringBuffer(subsequence).reverse().toString();
-        return result;
+        return new StringBuffer(subsequence).reverse().toString();
     }
 
     /**

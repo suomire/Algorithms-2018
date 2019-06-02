@@ -62,80 +62,86 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
      * Удаление элемента в дереве
      * Средняя
      */
+    // Трудоемкость: O(log(n))
+    // Ресурсоемкость: O(log(n))
     @Override
     public boolean remove(Object o) {
         @SuppressWarnings("unchecked")
         T element = (T) o;
-        if (find(element) == null || root == null || o == null) return false;
-        else {
-            Node<T> parent = null;
-            Node<T> current = root;
-            boolean isLeft = true;
-            //находим родителя
-            while (current.value != element) {
-                parent = current;
-                if (element.compareTo(parent.value) < 0) {
-                    isLeft = true;
-                    current = current.left;
-                } else {
-                    isLeft = false;
-                    current = current.right;
-                }
-            }
-            //current = deleted element, parent - parent deleted element
-            //проверяем наличие потомков
-            if (current.left == null && current.right == null) {
-                if (isLeft) {
-                    parent.left = null;
-                } else {
-                    parent.right = null;
-                }
-            } else if (current.left == null) {
-                if (isLeft) {
-                    parent.left = current.right;
-                } else {
-                    parent.right = current.right;
-                }
-            } else if (current.right == null) {
-                if (isLeft) {
-                    parent.left = current.left;
-                } else {
-                    parent.right = current.left;
-                }
+        Node<T> current = root;
+        Node<T> parent = current;
+        boolean isLeft = true;
+
+        //находим родителя
+        while (!(current.value.compareTo(element) == 0)) {
+            parent = current;
+            if (element.compareTo(parent.value) < 0) {
+                isLeft = true;
+                current = current.left;
             } else {
-                Node<T> current_node = current.left; //ищу макс элемент в левом поддереве!!!!!
-                Node<T> current_parent = current;
-                while (current_node.right != null) {
-                    current_parent = current_node;
-                    current_node = current_node.right;
-                }
-                //current_node - максимальный элемент меньшего дерева, current_parent - его родитель
-                if (current_node.left != null) {
-                    current_parent.right = current_node.left;
-                }
-                current_node.right = current.right;
-                current_node.left = current.left;
-                if (isLeft) {
-                    //загадка
-                    //assert parent != null;
-                    parent.left = current_node;
-                } else {
-                    parent.right = current_node;
-                }
+                isLeft = false;
+                current = current.right;
+            }
+        }
+
+        //current = deleted element, parent - parent deleted element
+        //проверяем наличие потомков
+        if (current.left == null && current.right == null) {
+            if (current == root) {
+                current = null;
+            } else if (isLeft) {
+                parent.left = null;
+            } else {
+                parent.right = null;
+            }
+        } else if (current.left == null) {
+            if (current == root) {
+                root = current.right;
+            } else if (isLeft) {
+                parent.left = current.right;
+            } else {
+                parent.right = current.right;
+            }
+        } else if (current.right == null) {
+            if (current == root) {
+                root = current.left;
+            } else if (isLeft) {
+                parent.left = current.left;
+            } else {
+                parent.right = current.left;
+            }
+        } else {
+            Node<T> successor = getSuccessor(current);
+            if (current == root) {
+                root = successor;
+            } else if (isLeft) {
+                parent.left = successor;
+            } else {
+                parent.right = successor;
             }
         }
         size--;
         return true;
     }
 
-    public Node<T> lastNode(Node<T> node) {
-        if (root == null) throw new NoSuchElementException();
-        Node<T> cur = node;
-        while (cur.left != null) {
-            cur = cur.left;
+    public Node<T> getSuccessor(Node<T> deleteNode) {
+        Node<T> parentSuccessor = deleteNode;
+        Node<T> successor = deleteNode;
+        Node<T> current = successor.right;
+        //поиск минимума в правом поддереве удаляемого элемента
+        while (current != null) {
+            parentSuccessor = successor;
+            successor = current;
+            current = current.left;
         }
-        return cur;
+
+        if (successor != deleteNode.right) {
+            parentSuccessor.left = successor.right;
+            successor.right = deleteNode.right;
+        }
+        return successor;
     }
+
 
     @Override
     public boolean contains(Object o) {
@@ -213,29 +219,6 @@ public class BinaryTree<T extends Comparable<T>> extends AbstractSet<T> implemen
                 cur = cur.left;
             }
             return cur;
-        }
-
-        public Node<T> maximum(Node<T> node) {
-            if (root == null) throw new NoSuchElementException();
-            Node<T> cur = node;
-            while (cur.right != null) {
-                cur = cur.right;
-            }
-            return cur;
-        }
-
-        public Node<T> findParent(Node<T> node) {
-            Node<T> parent = root;
-            Node<T> current = root;
-            while (current.value != node.value) {
-                parent = current;
-                if (node.value.compareTo(parent.value) < 0) {
-                    current = current.left;
-                } else {
-                    current = current.right;
-                }
-            }
-            return parent;
         }
 
 
